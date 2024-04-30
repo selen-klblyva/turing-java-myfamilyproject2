@@ -1,3 +1,4 @@
+package myfamilyproject7;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,17 +11,18 @@ import java.util.Objects;
 public abstract class Human {
     private String name;
     private String surname;
-    private long birthDate; // Unix Millis Timestamp
+    private long birthDate;
     private int iq;
     private Map<String, String> schedule;
     private Family family;
 
-    public Human(String name, String surname, long birthDate, int iq, Map<String, String> schedule) {
+    public Human(String name, String surname, long birthDate, int iq, Map<String, String> schedule,Family family) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
         this.iq = iq;
         this.schedule = new HashMap<>(schedule);
+        this.family=family;
     }
 
     public Human(String name, String surname, String birthDateString, int iq, Map<String, String> schedule) throws ParseException {

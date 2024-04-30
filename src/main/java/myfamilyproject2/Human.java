@@ -3,20 +3,22 @@ package myfamilyproject2;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 public abstract class Human {
     private String name;
     private String surname;
     private int yearofBirth;
     private int iq;
-    private String[][] schedule;
+    private Map<String,String> schedule;
     private Family family;
 
-    public Human(String name,String surname,int yearofBirth,int iq,String[][] schedule){
+    public Human(String name,String surname,int yearofBirth,int iq,Map<String,String> schedule){
         this.name=name;
         this.surname=surname;
         this.yearofBirth=yearofBirth;
         this.iq=iq;
-        this.schedule=schedule;
+        this.schedule=new HashMap<>();
     }
 
 
@@ -52,6 +54,13 @@ public abstract class Human {
         return this.family;
     }
 
+    public void setSchedule(Map<String,String> Schedule) {
+        this.schedule=schedule;
+    }
+    public Map<String,String> getSchedule(){
+        return this.schedule;
+    }
+
     @Override
     public String toString() {
         return "Human{" +
@@ -59,15 +68,21 @@ public abstract class Human {
                 ", surname='" + surname + '\'' +
                 ", yearofBirth=" + yearofBirth +
                 ", iq=" + iq +
-                ", schedule=" + Arrays.toString(schedule) +
+                ", schedule=" + schedule +
                 ", family=" + family +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Human human = (Human) o;
+        return yearofBirth == human.yearofBirth && iq == human.iq && Objects.equals(name, human.name) && Objects.equals(surname, human.surname) && Objects.equals(schedule, human.schedule) && Objects.equals(family, human.family);
+    }
 
-
-
-
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, yearofBirth, iq, schedule, family);
+    }
 }

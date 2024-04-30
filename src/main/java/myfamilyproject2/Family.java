@@ -2,17 +2,19 @@ package myfamilyproject2;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.*;
 
 public class Family {
     private Human mother;
     private Human father;
-    private Human[] children;
-    private Pet pet;
+    private List<Human> children;
+    private Set<Pet> pet;
 
     public Family(Human mother, Human father) {
         this.mother = mother;
         this.father = father;
-        this.children = new Human[0];
+        this.children = new ArrayList<>();
+        this.pet=new HashSet<>();
     }
 
     public Human getMother() {
@@ -31,44 +33,37 @@ public class Family {
         this.father = father;
     }
 
-    public Human[] getChildren() {
+    public List<Human> getChildren() {
         return children;
     }
 
-    public void setChildren(Human[] children) {
+    public void setChildren(List<Human> children) {
         this.children = children;
     }
 
-    public Pet getPet() {
+    public Set<Pet> getPet() {
         return pet;
     }
 
-    public void setPet(Pet pet) {
+    public void setPet(Set<Pet> pet) {
         this.pet = pet;
     }
 
     public int countFamily(){
-        return 2+children.length;
+        return 2+children.size();
     }
 
     public void addChild(Human child) {
-        Human[] newChildren = new Human[children.length + 1];
-        System.arraycopy(children, 0, newChildren, 0, children.length);
-        newChildren[children.length] = child;
+        children.add(child);
         child.setFamily(this);
-        children = newChildren;
     }
 
-    public boolean deleteChild(int index) {
-        if (index < 0 || index >= children.length) {
-            return false;
+    public boolean deleteChild(Human child) {
+        boolean removed=children.remove(child);
+        if(removed){
+            child.setFamily(null);
         }
-        Human[] newChildren = new Human[children.length - 1];
-        System.arraycopy(children, 0, newChildren, 0, index);
-        System.arraycopy(children, index + 1, newChildren, index, children.length - index - 1);
-        children[index].setFamily(null);
-        children = newChildren;
-        return true;
+        return removed;
     }
 
     @Override
@@ -76,29 +71,21 @@ public class Family {
         return "Family{" +
                 "mother=" + mother +
                 ", father=" + father +
-                ", children=" + Arrays.toString(children) +
+                ", children=" + children +
                 ", pet=" + pet +
                 '}';
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Family family = (Family) o;
-        return Objects.equals(mother, family.mother) && Objects.equals(father, family.father) && Arrays.equals(children, family.children) && Objects.equals(pet, family.pet);
+        return Objects.equals(mother, family.mother) && Objects.equals(father, family.father) && Objects.equals(children, family.children) && Objects.equals(pet, family.pet);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(mother, father, pet);
-        result = 31 * result + Arrays.hashCode(children);
-        return result;
+        return Objects.hash(mother, father, children, pet);
     }
-
-
-
-
-
-
-
 }
